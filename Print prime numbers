@@ -1,0 +1,26 @@
+Write a query to print all prime numbers less than or equal to 1000.Print your result on a single line, 
+and use the ampersand(&) character as your separator (instead of a space).
+For example, the output for all prime numbers <=10 would be:-
+2&3&5&7
+
+WITH SEQ AS 
+(
+SELECT
+LEVEL LVL
+FROM
+DUAL A
+CONNECT BY LEVEL<=1000
+)
+
+SELECT
+LISTAGG(LVL,'&') WITHIN GROUP ( ORDER BY LVL) AS TXT
+FROM
+(
+SELECT
+A.LVL
+FROM
+SEQ A
+WHERE 
+A.LVL>1 AND
+NOT EXISTS(SELECT 1 FROM SEQ B WHERE B.LVL>1 AND B.LVL<A.LVL AND MOD(A.LVL,B.LVL)=0)
+);
