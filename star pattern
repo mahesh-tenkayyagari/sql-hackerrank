@@ -1,0 +1,16 @@
+P(R) represents a pattern drawn by Julia in R rows. The following pattern represents P(5):
+* * * * * 
+* * * * 
+* * * 
+* * 
+*
+select 
+txt from
+(
+select 
+level as lvl,
+RPAD('* ', level*2, '* ') as txt
+from dual
+connect by level<=20
+)
+order by lvl desc;
